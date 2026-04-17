@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 @Configuration
-public class AIServiceConfig {
+public class ProxyChainConfig {
 
     // Chain: RateLimitProxy → QuotaProxy → MockAIGenerationService
     @Bean
@@ -19,7 +19,9 @@ public class AIServiceConfig {
             MockAIGenerationService mockService,
             UserQuotaService quotaService
     ) {
-        AIGenerationService withQuota = new QuotaProxyService(mockService, quotaService);
-        return new RateLimitProxyService(withQuota, quotaService);
+        return new RateLimitProxyService(
+                new QuotaProxyService(mockService, quotaService),
+                quotaService
+        );
     }
 }
