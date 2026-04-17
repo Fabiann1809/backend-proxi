@@ -33,7 +33,7 @@ public class RateLimitProxyService implements AIGenerationService {
             throw new RateLimitException((int) Math.max(secondsUntilReset, 1));
         }
 
-        quotaService.incrementRequestCount(request.getUserId());
+        quotaService.incrementRequests(request.getUserId());
 
         return next.generate(request);
     }

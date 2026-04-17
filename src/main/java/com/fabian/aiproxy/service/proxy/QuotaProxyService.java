@@ -33,7 +33,7 @@ public class QuotaProxyService implements AIGenerationService {
             );
         }
 
-        quotaService.consumeTokens(request.getUserId(), response.getTokensUsed());
+        quotaService.deductTokens(request.getUserId(), response.getTokensUsed());
 
         return response;
     }
